@@ -1,4 +1,4 @@
-#ObjectComparer
+#ObjectComparer readme
 
 The goal of this library was to create a Java Script plain object comparer. Method consists of few steps:
 
