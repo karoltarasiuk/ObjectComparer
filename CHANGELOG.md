@@ -4,7 +4,7 @@
 
 ###Compatibility
 
-Based on Underscorejs: IE7+, Firefox 4+, Safari 5+, Opera 9+, Chrome 1+
+Based on Underscorejs and JSON.stringify: IE8+, Firefox 4+, Safari 5+, Opera 10.5+, Chrome 1+
 
 ###Changes list
 
