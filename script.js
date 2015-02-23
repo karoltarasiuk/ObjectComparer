@@ -21,6 +21,6 @@ require([
         obj2 = obj1,
         obj3 = obj1;
 
-    comparer = new ObjectComparer(obj1, obj2, obj3);
-    console.log(comparer.areEqual());
+    comparer = new ObjectComparer();
+    console.log(comparer.areEqual(obj1, obj2, obj3));
 });
