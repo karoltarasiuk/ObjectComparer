@@ -4,7 +4,7 @@ define(["underscore", "ObjectComparer"], function(_, ObjectComparer) {
 
         var comparer = new ObjectComparer();
 
-        describe("creating new", function () {
+        describe("Creating new", function () {
 
             it("should always return an ObjectComparer instance", function () {
 
