@@ -6,6 +6,10 @@ The goal of this library was to create a Java Script plain object comparer. Meth
 2. Convert the outcome to JSON string.
 3. Compare strings and assess equality.
 
+##Changelog
+
+You can find the changelog in [CHANGELOG.md](https://github.com/karoltarasiuk/ObjectComparer/blob/master/CHANGELOG.md) file.
+
 ##Licence
 
 You can find the licence in [LICENCE.md](https://github.com/karoltarasiuk/ObjectComparer/blob/master/LICENCE.md) file.
