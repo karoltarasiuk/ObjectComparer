@@ -1,71 +1,102 @@
-define(["underscore"], function (_) {
+define(function () {
 
     /**
      * Compares plain objects by sorting properties alphabetically
      * and creating a JSON string to compare.
      *
-     * Pass any number of objects to compare at once.
+     * Passing true will make it compare inherited properties as well.
+     *
+     * @param {[boolean]} dontUseHasOwnProperty
      */
-    var ObjectComparer = function () {};
+    var ObjectComparer = function (dontUseHasOwnProperty) {
 
-    _.extend(ObjectComparer.prototype, {
+        if (dontUseHasOwnProperty !== true) {
+            dontUseHasOwnProperty = false;
+        }
 
-        /**
-         * Returns true if all objects are equal, false otherwise.
-         * @return {[boolean]}
-         */
-        areEqual: function () {
+        this.dontUseHasOwnProperty = dontUseHasOwnProperty;
+    };
 
-            if (arguments.length < 2) {
-                throw "min 2 arguments needed";
+    /**
+     * Returns true if all objects are equal, false otherwise.
+     * Pass any number of objects to compare at once.
+     *
+     * @return {[boolean]}
+     */
+    ObjectComparer.prototype.areEqual = function () {
+
+        var i, j, found,
+            jsons = [];
+
+        if (arguments.length < 2) {
+            throw "min 2 arguments needed";
+        }
+
+        this.objects = arguments;
+
+        for (i = 0; i < this.objects.length; i++) {
+            jsons.push(JSON.stringify(
+                copyObjectAlphabetically(this.objects[i], this.dontUseHasOwnProperty)
+            ));
+        }
+
+        for (i = 0; i < jsons.length; i++) {
+            for (j = 0; j < jsons.length; j++) {
+                if (i !== j && jsons[i] !== jsons[j]) {
+                    found = true;
+                }
             }
+        }
 
-            this.objects = arguments;
-
-            var jsons = [];
-
-            _.each(this.objects, function (obj) {
-                jsons.push(JSON.stringify(
-                    copyObjectAlphabetically(obj)
-                ));
-            });
-
-            jsons = _.uniq(jsons);
-
-            if (jsons.length === 1) {
-                return true;
-            }
-
+        if (found) {
             return false;
         }
-    });
 
-    var extractPropertiesAlphabetically = function (obj) {
+        return true;
+    };
 
-        var properties = [];
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray
+    if (!Array.isArray) {
+        Array.isArray = function(arg) {
+           return Object.prototype.toString.call(arg) === '[object Array]';
+        };
+    }
 
-        _.each(obj, function (val, key) {
-            properties.push(key);
-        });
+    // http://underscorejs.org/docs/underscore.html#section-134
+    var isObject = function (obj) {
+        var type = typeof obj;
+        return type === 'function' || type === 'object' && !!obj;
+    };
+
+    var extractPropertiesAlphabetically = function (obj, dontUseHasOwnProperty) {
+
+        var i,
+            properties = [];
+
+        for (i in obj) {
+            if (dontUseHasOwnProperty || obj.hasOwnProperty(i)) {
+                properties.push(i);
+            }
+        }
 
         return properties.sort();
     };
 
-    var copyObjectAlphabetically = function (obj) {
+    var copyObjectAlphabetically = function (obj, dontUseHasOwnProperty) {
 
-        var arr, ret;
+        var i, arr, ret;
 
-        if (_.isArray(obj)) {
+        if (Array.isArray(obj)) {
             ret = [];
-            _.each(obj, function (val, index) {
-                ret[index] = copyObjectAlphabetically(val);
-            });
-        } else if (_.isObject(obj)) {
+            for (i = 0; i < obj.length; i++) {
+                ret[i] = copyObjectAlphabetically(obj[i], dontUseHasOwnProperty);
+            }
+        } else if (isObject(obj)) {
             ret = {};
-            arr = extractPropertiesAlphabetically(obj);
-            _.each(arr, function (key) {
-                ret[key] = copyObjectAlphabetically(obj[key]);
-            });
+            arr = extractPropertiesAlphabetically(obj, dontUseHasOwnProperty);
+            for (i = 0; i < arr.length; i++) {
+                ret[arr[i]] = copyObjectAlphabetically(obj[arr[i]], dontUseHasOwnProperty);
+            }
         } else {
             ret = obj;
         }

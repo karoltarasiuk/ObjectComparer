@@ -2,15 +2,19 @@ define(["underscore", "ObjectComparer"], function(_, ObjectComparer) {
 
     describe("ObjectComparer", function() {
 
-        var i, args,
+        var i, args, temp,
             comparer = new ObjectComparer(),
             runnerHelper = function (args, outcome) {
                 _.each(args, function (arg) {
-                    expect(comparer.areEqual.apply(comparer, arg)).toBe(outcome);
+                    temp = comparer.areEqual.apply(comparer, arg);
+                    if (temp !== outcome) {
+                        console.log(arg);
+                    }
+                    expect(temp).toBe(outcome);
                 });
             };
 
-        describe("Comparing", function () {
+        describe("Simple comparing", function () {
 
             it("should always be successful", function () {
 

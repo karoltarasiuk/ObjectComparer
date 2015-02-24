@@ -25,7 +25,8 @@ require(['boot'], function () {
 
     var specs = [
             "spec/ObjectComparer/Main",
-            "spec/ObjectComparer/Comparing"
+            "spec/ObjectComparer/SimpleComparing",
+            "spec/ObjectComparer/HasOwnProperty"
         ];
 
     require(specs, function () {

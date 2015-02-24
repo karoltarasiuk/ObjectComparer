@@ -1,5 +1,16 @@
 #ObjectComparer changelog
 
+##v1.1.0
+
+###Compatibility
+
+Based on JSON.stringify: IE8+, Firefox 3.5+, Safari 4+, Opera 10.5+, Chrome 1+
+
+###Changes list
+
+- removed underscore dependency
+- outputting test arguments when it fails
+
 ##v1.0.0
 
 ###Compatibility
