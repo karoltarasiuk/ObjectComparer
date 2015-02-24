@@ -2,7 +2,7 @@
 
 The goal of this library was to create a Java Script plain object comparer. Method consists of few steps:
 
-1. For each passed object sort it's properties alphabetically using [Array,prototype.sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) method. The operation is performed recursively.
+1. For each passed object, sort its properties alphabetically using [Array,prototype.sort](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) method. The operation is performed recursively.
 2. Convert the outcome to JSON string.
 3. Compare strings and assess equality.
 
